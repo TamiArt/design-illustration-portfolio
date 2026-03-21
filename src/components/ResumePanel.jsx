@@ -60,10 +60,7 @@ export default function ResumePanel({
               <span className="artist-panel__eyebrow">
                 Художник • дизайнер визуальных решений
               </span>
-              <h1>
-                <span>Татьяна</span>
-                <span>Ципелева</span>
-              </h1>
+              <h1>Татьяна Ципелева</h1>
               <p className="artist-panel__summary">
                 Создаю авторские визуальные решения на стыке живописи,
                 иллюстрации и интерьерного скетчинга. В работе соединяю
@@ -95,21 +92,6 @@ export default function ResumePanel({
               </article>
             ))}
           </div>
-
-          <section className="artist-panel__section artist-panel__section--process">
-            <div className="artist-panel__section-head">
-              <h2>Этапы работы</h2>
-              <p>От постановки задачи до финальной визуальной отрисовки.</p>
-            </div>
-            <div className="artist-panel__process-grid">
-              {resumeProcessSteps.map((item) => (
-                <article className="artist-panel__process-card" key={item.step}>
-                  <span>{item.step} этап</span>
-                  <strong>{item.title}</strong>
-                </article>
-              ))}
-            </div>
-          </section>
 
           <div className="artist-panel__compact-columns">
             <section className="artist-panel__section artist-panel__section--fields">
@@ -195,6 +177,21 @@ export default function ResumePanel({
                 >
                   <strong>{skill.short}</strong>
                   <small>{skill.label}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="artist-panel__section artist-panel__section--process artist-panel__section--process-visual">
+            <div className="artist-panel__section-head artist-panel__section-head--process">
+              <h2>Этапы работы</h2>
+              <p>От постановки задачи до финальной визуальной отрисовки.</p>
+            </div>
+            <div className="artist-panel__process-grid">
+              {resumeProcessSteps.map((item) => (
+                <article className="artist-panel__process-card" key={item.step}>
+                  <span>{item.step} этап</span>
+                  <strong>{item.title}</strong>
                 </article>
               ))}
             </div>

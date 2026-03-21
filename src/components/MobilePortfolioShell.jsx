@@ -65,7 +65,7 @@ export default function MobilePortfolioShell({
             <div className="mobile-shell__poster-hero">
               <div className="mobile-shell__poster-page-preview" aria-hidden="true">
                 <div className="mobile-shell__poster-page-preview-scale">
-                  <ResumePanel onPdfExport={() => {}} />
+                  <ResumePanel className="artist-panel--mobile-preview" onPdfExport={() => {}} />
                 </div>
               </div>
 
