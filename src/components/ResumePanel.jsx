@@ -41,7 +41,6 @@ export default function ResumePanel({
       <div className="artist-panel__toolbar">
         <span className="artist-panel__toolbar-chip">Мое резюме</span>
         <div className="artist-panel__toolbar-actions">
-          <span className="artist-panel__toolbar-search">arTami studio</span>
           <button
             type="button"
             className="artist-panel__toolbar-pdf"

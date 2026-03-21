@@ -1,11 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { artistMainPhotoImage, resumeCreativeFields } from '../data/portfolio';
+import {
+  artistMainPhotoImage,
+  artistPanelPortraitImage,
+  resumeCreativeFields,
+} from '../data/portfolio';
 import { CategoryIcon, ContactIcon } from './Icons';
 import ResumePanel from './ResumePanel';
+import ResumeToolIcons from './ResumeToolIcons';
 
 const resumeAboutCopy =
   'Художник и дизайнер визуальных решений. Создаю авторские визуалы на стыке живописи, иллюстрации и digital-подачи.';
+
+function HomeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 4.2 4.9 9.8v8.3c0 .5.4 1 .9 1H10v-4.4c0-.5.4-.9.9-.9h2.2c.5 0 .9.4.9.9v4.4h4.2c.5 0 .9-.5.9-1V9.8L12 4.2Zm0 2.1 4.9 3.9v7H15v-3.8c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5v3.8H7.1v-7L12 6.3Z" />
+    </svg>
+  );
+}
 
 function ArrowIcon() {
   return (
@@ -36,16 +49,36 @@ export default function MobilePortfolioShell({
 }) {
   const isHomeState = !displayCategoryId;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isResumeVisible, setIsResumeVisible] = useState(false);
   const highlightedFields = resumeCreativeFields.slice(0, 4);
 
   useEffect(() => {
     if (!isHomeState) {
       setIsMenuVisible(false);
+      setIsResumeVisible(false);
     }
   }, [isHomeState]);
 
   function handleOpenMenu() {
+    setIsResumeVisible(false);
     setIsMenuVisible(true);
+  }
+
+  function handleOpenResume(event) {
+    event.stopPropagation();
+    setIsMenuVisible(false);
+    setIsResumeVisible(true);
+  }
+
+  function handleCloseResume() {
+    setIsResumeVisible(false);
+  }
+
+  function handleHomeVisualKeyDown(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleOpenMenu();
+    }
   }
 
   function handleCloseMenu() {
@@ -53,45 +86,135 @@ export default function MobilePortfolioShell({
   }
 
   function handleOpenCategory(categoryId) {
+    setIsResumeVisible(false);
     setIsMenuVisible(false);
     onMenuClick(categoryId);
   }
 
+  if (isHomeState && isResumeVisible) {
+    return (
+      <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
+        <div className="mobile-shell__device">
+          <div className="mobile-shell__detail-stage mobile-shell__detail-stage--resume">
+            <div className="mobile-shell__detail-header">
+              <button
+                type="button"
+                className="mobile-shell__detail-back"
+                onClick={handleCloseResume}
+              >
+                Назад
+              </button>
+              <Link className="mobile-shell__detail-contact" to="/contacts">
+                Контакты
+              </Link>
+            </div>
+
+            <div className="mobile-shell__resume-fullscreen">
+              <ResumePanel onPdfExport={() => {}} portraitFetchPriority="high" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (isHomeState && !isMenuVisible) {
     return (
-      <section className="mobile-shell mobile-shell--poster" style={themeStyle}>
-        <div className="mobile-shell__device mobile-shell__device--poster">
-          <div className="mobile-shell__poster">
-            <div className="mobile-shell__poster-hero">
-              <div className="mobile-shell__poster-page-preview" aria-hidden="true">
-                <div className="mobile-shell__poster-page-preview-scale">
-                  <ResumePanel className="artist-panel--mobile-preview" onPdfExport={() => {}} />
+      <section className="mobile-shell mobile-shell--home" style={themeStyle}>
+        <div className="mobile-shell__device mobile-shell__device--home">
+          <div className="mobile-shell__home-screen">
+            <div className="mobile-shell__header">
+              <Link className="mobile-shell__brand" to="/">
+                <span className="mobile-shell__brand-mark" aria-hidden="true">
+                  <HomeIcon />
+                </span>
+                <div className="mobile-shell__brand-copy">
+                  <strong>Татьяна Ципелева | arTami</strong>
+                  <small>Художник • Дизайнер визуальных решений</small>
+                </div>
+              </Link>
+              <Link className="mobile-shell__header-action" to="/contacts">
+                Контакты
+              </Link>
+            </div>
+
+            <div className="mobile-shell__home-body">
+              <span className="mobile-shell__home-eyebrow">
+                Художник • Дизайнер визуальных решений
+              </span>
+
+              <div
+                className="mobile-shell__home-visual-trigger"
+                role="button"
+                tabIndex={0}
+                onClick={handleOpenMenu}
+                onKeyDown={handleHomeVisualKeyDown}
+                aria-label="Открыть меню"
+              >
+                <div className="artist-panel__frame mobile-shell__home-frame">
+                  <button
+                    type="button"
+                    className="mobile-shell__home-resume-trigger"
+                    onClick={handleOpenResume}
+                    aria-label="Открыть резюме"
+                  >
+                    Резюме
+                  </button>
+
+                  <ResumeToolIcons className="artist-panel__contact-stack" />
+
+                  <div className="artist-panel__floating artist-panel__floating--badge">
+                    artami
+                    <br />
+                    studio
+                  </div>
+
+                  <div className="artist-panel__portrait-wrap">
+                    <img
+                      className="artist-panel__portrait"
+                      src={artistPanelPortraitImage}
+                      alt="Татьяна Ципелева"
+                      loading="eager"
+                      decoding="async"
+                      fetchpriority="high"
+                    />
+                  </div>
+
+                  <div className="artist-panel__floating artist-panel__floating--controls" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
                 </div>
               </div>
 
-              <div className="mobile-shell__poster-circle">
-                <img
-                  src={artistMainPhotoImage}
-                  alt="Татьяна Ципелева"
-                  loading="eager"
-                  decoding="async"
-                  fetchpriority="high"
-                />
-              </div>
+              <div className="mobile-shell__home-footer">
+                <div className="mobile-shell__home-about">
+                  <span>Обо мне</span>
+                  <p>{resumeAboutCopy}</p>
+                </div>
 
-              <div className="mobile-shell__poster-about">
-                <span>ОБО МНЕ</span>
-                <p>{resumeAboutCopy}</p>
-              </div>
+                <div className="mobile-shell__home-side">
+                  <div className="mobile-shell__home-photo">
+                    <img
+                      src={artistMainPhotoImage}
+                      alt="Татьяна Ципелева"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  </div>
 
-              <button
-                type="button"
-                className="mobile-shell__poster-arrow"
-                onClick={handleOpenMenu}
-                aria-label="Открыть меню"
-              >
-                <ArrowIcon />
-              </button>
+                  <button
+                    type="button"
+                    className="mobile-shell__home-next"
+                    onClick={handleOpenMenu}
+                    aria-label="Открыть меню"
+                  >
+                    <ArrowIcon />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
