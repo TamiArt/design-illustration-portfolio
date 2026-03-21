@@ -1,0 +1,13 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" rx="360" fill="url(#base)"/>
+  <path d="M360 104C292 172 264 260 276 340C288 420 338 492 430 566C498 500 536 428 542 354C548 280 528 194 470 126C422 160 396 172 360 104Z" fill="#50764C"/>
+  <path d="M378 118C318 178 296 248 306 324C316 400 360 470 438 534C496 476 526 412 528 344C530 276 508 204 462 148C426 176 404 184 378 118Z" fill="#6B9567"/>
+  <path d="M324 180C274 236 252 292 258 356C264 420 298 478 358 528C410 484 436 430 438 370C440 310 420 258 382 210C354 232 342 232 324 180Z" fill="#89B081"/>
+  <path d="M430 212C388 256 372 310 376 364C380 418 406 466 454 512C496 476 518 432 520 382C522 332 506 286 474 242C454 252 444 250 430 212Z" fill="#3F613E"/>
+  <defs>
+    <radialGradient id="base" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 360) rotate(90) scale(360)">
+      <stop stop-color="#F2F6ED"/>
+      <stop offset="1" stop-color="#D7E0CE"/>
+    </radialGradient>
+  </defs>
+</svg>
