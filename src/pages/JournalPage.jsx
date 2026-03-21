@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { NavLink, useSearchParams } from 'react-router-dom';
+import MobileAppHeader from '../components/MobileAppHeader';
 import { journalStories, portfolioSections } from '../data/portfolio';
 
 export default function JournalPage() {
@@ -16,6 +17,8 @@ export default function JournalPage() {
   return (
     <main className={`page journal-page journal-page--${activeCategory.id}`}>
       <div className="journal-page__frame">
+        <MobileAppHeader className="mobile-page-header" />
+
         <section className="journal-hero">
           <div className="journal-copy">
             <span className="eyebrow">Раздел портфолио</span>

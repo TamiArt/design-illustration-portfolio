@@ -1,7 +1,11 @@
 ﻿import { NavLink, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import JournalPage from './pages/JournalPage';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import ContactsPage from './pages/ContactsPage';
+import HomePage from './pages/HomePage';
+import { getSitePath, recordSiteHistoryEntry } from './hooks/siteHistory';
+import JournalPage from './pages/JournalPage';
+import ResumePrintPage from './pages/ResumePrintPage';
 
 const SHOW_HOME_EVENT = 'portfolio:show-home';
 
@@ -14,8 +18,14 @@ function SiteHeader() {
     <header className="site-header">
       <NavLink className="brand" to="/" onClick={handleHomeClick}>
         <span className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 4.2 4.9 9.8v8.3c0 .5.4 1 .9 1H10v-4.4c0-.5.4-.9.9-.9h2.2c.5 0 .9.4.9.9v4.4h4.2c.5 0 .9-.5.9-1V9.8L12 4.2Zm0 2.1 4.9 3.9v7H15v-3.8c0-.8-.7-1.5-1.5-1.5h-3c-.8 0-1.5.7-1.5 1.5v3.8H7.1v-7L12 6.3Z" />
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M7.25 10.17 12 6.35l4.75 3.82v6.16a1.1 1.1 0 0 1-1.1 1.1h-2.42v-3.48h-2.46v3.48H8.35a1.1 1.1 0 0 1-1.1-1.1v-6.16Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.8"
+            />
           </svg>
         </span>
         <div>
@@ -49,14 +59,22 @@ function FloatingAura() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const isResumePrintPage = location.pathname === '/resume-print';
+
+  useEffect(() => {
+    recordSiteHistoryEntry(getSitePath(location));
+  }, [location]);
+
   return (
-    <div className="app-shell">
-      <FloatingAura />
-      <SiteHeader />
+    <div className={`app-shell${isResumePrintPage ? ' app-shell--resume-print' : ''}`}>
+      {isResumePrintPage ? null : <FloatingAura />}
+      {isResumePrintPage ? null : <SiteHeader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
+        <Route path="/resume-print" element={<ResumePrintPage />} />
       </Routes>
     </div>
   );

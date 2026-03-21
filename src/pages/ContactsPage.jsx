@@ -1,4 +1,5 @@
 import { useLayoutEffect } from 'react';
+import MobileAppHeader from '../components/MobileAppHeader';
 import ContactHub from '../components/ContactHub';
 
 export default function ContactsPage() {
@@ -9,6 +10,8 @@ export default function ContactsPage() {
   return (
     <main className="page contacts-page">
       <div className="contacts-page__frame">
+        <MobileAppHeader className="mobile-page-header" />
+
         <section className="contacts-hero">
           <div className="journal-copy">
             <span className="eyebrow">Контакты</span>

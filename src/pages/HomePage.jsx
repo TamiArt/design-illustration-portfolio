@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DesktopPortfolioStage from '../components/DesktopPortfolioStage';
 import MobilePortfolioShell from '../components/MobilePortfolioShell';
+import ResumePanel from '../components/ResumePanel';
 import {
   artistPanelPortraitImage,
   getCategoryThemeStyle,
@@ -124,6 +125,19 @@ export default function HomePage() {
     openOverlay(portfolioSections[0].id);
   }
 
+  function handleMobilePdfExport() {
+    document.body.classList.add('pdf-export-mode');
+
+    function handleAfterPrint() {
+      document.body.classList.remove('pdf-export-mode');
+      window.removeEventListener('afterprint', handleAfterPrint);
+    }
+
+    window.addEventListener('afterprint', handleAfterPrint);
+    void document.body.offsetWidth;
+    window.print();
+  }
+
   if (isMobileView) {
     return (
       <main className="page home-page home-page--mobile">
@@ -137,6 +151,7 @@ export default function HomePage() {
           onHeroCardClick={handleHeroCardClick}
           onMenuClick={handleMenuClick}
           onOpenSection={handleOpenSection}
+          onPdfExport={handleMobilePdfExport}
           onPreviewSelect={setSelectedPreviewIndex}
           openCategoryId={openCategoryId}
           sections={portfolioSections}
@@ -144,6 +159,13 @@ export default function HomePage() {
           selectedPreviewIndex={selectedPreviewIndex}
           themeStyle={themeStyle}
         />
+        <div className="home-page__mobile-print-resume" aria-hidden="true">
+          <ResumePanel
+            className="home-page__mobile-print-panel"
+            onPdfExport={handleMobilePdfExport}
+            portraitFetchPriority="high"
+          />
+        </div>
       </main>
     );
   }

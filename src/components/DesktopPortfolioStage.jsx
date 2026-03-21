@@ -61,6 +61,7 @@ export default function DesktopPortfolioStage({
 
       <div className="linked-stage__stack">
         <ResumePanel
+          className="linked-stage__resume-panel"
           id="about"
           onPdfExport={handlePdfExport}
           portraitFetchPriority="high"

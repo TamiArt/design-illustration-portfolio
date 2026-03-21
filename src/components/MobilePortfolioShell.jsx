@@ -6,11 +6,12 @@ import {
   resumeCreativeFields,
 } from '../data/portfolio';
 import { CategoryIcon, ContactIcon } from './Icons';
+import MobileAppHeader from './MobileAppHeader';
 import ResumePanel from './ResumePanel';
 import ResumeToolIcons from './ResumeToolIcons';
 
 const resumeAboutCopy =
-  'Художник и дизайнер визуальных решений. Создаю авторские визуалы на стыке живописи, иллюстрации и digital-подачи.';
+  'Создаю авторские визуалы на стыке живописи, иллюстрации и digital-подачи.';
 
 function HomeIcon() {
   return (
@@ -41,6 +42,7 @@ export default function MobilePortfolioShell({
   onCloseOverlay,
   onMenuClick,
   onOpenSection,
+  onPdfExport,
   onPreviewSelect,
   sections,
   selectedPreview,
@@ -91,26 +93,30 @@ export default function MobilePortfolioShell({
     onMenuClick(categoryId);
   }
 
+  function handleHomePdfClick(event) {
+    event.stopPropagation();
+    onPdfExport();
+  }
+
+  function handleGoBack() {
+    onCloseOverlay();
+  }
+
+  function handleShowHome() {
+    setIsMenuVisible(false);
+    setIsResumeVisible(false);
+    onCloseOverlay();
+  }
+
   if (isHomeState && isResumeVisible) {
     return (
       <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
         <div className="mobile-shell__device">
           <div className="mobile-shell__detail-stage mobile-shell__detail-stage--resume">
-            <div className="mobile-shell__detail-header">
-              <button
-                type="button"
-                className="mobile-shell__detail-back"
-                onClick={handleCloseResume}
-              >
-                Назад
-              </button>
-              <Link className="mobile-shell__detail-contact" to="/contacts">
-                Контакты
-              </Link>
-            </div>
+            <MobileAppHeader onBack={handleCloseResume} onHome={handleShowHome} />
 
             <div className="mobile-shell__resume-fullscreen">
-              <ResumePanel onPdfExport={() => {}} portraitFetchPriority="high" />
+              <ResumePanel onPdfExport={onPdfExport} portraitFetchPriority="high" />
             </div>
           </div>
         </div>
@@ -154,20 +160,29 @@ export default function MobilePortfolioShell({
                 <div className="artist-panel__frame mobile-shell__home-frame">
                   <button
                     type="button"
-                    className="mobile-shell__home-resume-trigger"
-                    onClick={handleOpenResume}
-                    aria-label="Открыть резюме"
+                    className="mobile-shell__home-pdf-button"
+                    onClick={handleHomePdfClick}
+                    aria-label="Открыть полноценное резюме в PDF"
                   >
-                    Резюме
+                    PDF
                   </button>
 
-                  <ResumeToolIcons className="artist-panel__contact-stack" />
+                  <ResumeToolIcons className="artist-panel__contact-stack mobile-shell__home-tool-stack" />
 
                   <div className="artist-panel__floating artist-panel__floating--badge">
                     artami
                     <br />
                     studio
                   </div>
+
+                  <button
+                    type="button"
+                    className="mobile-shell__home-resume-trigger"
+                    onClick={handleOpenResume}
+                    aria-label="Просмотреть резюме"
+                  >
+                    Просмотреть резюме
+                  </button>
 
                   <div className="artist-panel__portrait-wrap">
                     <img
@@ -227,18 +242,7 @@ export default function MobilePortfolioShell({
       <section className="mobile-shell mobile-shell--poster" style={themeStyle}>
         <div className="mobile-shell__device mobile-shell__device--poster">
           <div className="mobile-shell__menu-screen">
-            <div className="mobile-shell__menu-topbar">
-              <button
-                type="button"
-                className="mobile-shell__menu-back"
-                onClick={handleCloseMenu}
-              >
-                Назад
-              </button>
-              <Link className="mobile-shell__menu-contact" to="/contacts">
-                Контакты
-              </Link>
-            </div>
+            <MobileAppHeader className="mobile-shell__menu-topbar" onBack={handleCloseMenu} onHome={handleShowHome} />
 
             <div className="mobile-shell__menu-intro">
               <span>Навигация</span>
@@ -279,21 +283,12 @@ export default function MobilePortfolioShell({
     <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
       <div className="mobile-shell__device">
         <div className="mobile-shell__detail-stage">
-          <div className="mobile-shell__detail-header">
-            <button type="button" className="mobile-shell__detail-back" onClick={onCloseOverlay}>
-              На главную
-            </button>
-            <Link className="mobile-shell__detail-contact" to="/contacts">
-              Контакты
-            </Link>
-          </div>
+          <MobileAppHeader onBack={handleGoBack} onHome={handleShowHome} />
 
           <article className="mobile-shell__panel mobile-shell__panel--detail">
             <div className="mobile-shell__panel-glow" aria-hidden="true" />
 
             <div className="mobile-shell__panel-topbar">
-              <span className="mobile-shell__panel-label">{selectedPreview.label}</span>
-
               <button
                 type="button"
                 className="mobile-shell__panel-link"
