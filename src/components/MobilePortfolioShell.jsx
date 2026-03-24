@@ -99,6 +99,8 @@ export default function MobilePortfolioShell({
   }
 
   function handleGoBack() {
+    setIsResumeVisible(false);
+    setIsMenuVisible(true);
     onCloseOverlay();
   }
 
@@ -113,10 +115,14 @@ export default function MobilePortfolioShell({
       <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
         <div className="mobile-shell__device">
           <div className="mobile-shell__detail-stage mobile-shell__detail-stage--resume">
-            <MobileAppHeader onBack={handleCloseResume} onHome={handleShowHome} />
+            <MobileAppHeader useLocalBack onBack={handleCloseResume} onHome={handleShowHome} />
 
             <div className="mobile-shell__resume-fullscreen">
-              <ResumePanel onPdfExport={onPdfExport} portraitFetchPriority="high" />
+              <ResumePanel
+                className="mobile-shell__resume-panel"
+                onPdfExport={onPdfExport}
+                portraitFetchPriority="high"
+              />
             </div>
           </div>
         </div>
@@ -220,14 +226,20 @@ export default function MobilePortfolioShell({
                     />
                   </div>
 
-                  <button
-                    type="button"
-                    className="mobile-shell__home-next"
-                    onClick={handleOpenMenu}
-                    aria-label="Открыть меню"
-                  >
-                    <ArrowIcon />
-                  </button>
+                  <div className="mobile-shell__home-menu-entry">
+                    <span className="mobile-shell__home-menu-label" aria-hidden="true">
+                      Меню
+                    </span>
+
+                    <button
+                      type="button"
+                      className="mobile-shell__home-next"
+                      onClick={handleOpenMenu}
+                      aria-label="Открыть меню"
+                    >
+                      <ArrowIcon />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -242,7 +254,12 @@ export default function MobilePortfolioShell({
       <section className="mobile-shell mobile-shell--poster" style={themeStyle}>
         <div className="mobile-shell__device mobile-shell__device--poster">
           <div className="mobile-shell__menu-screen">
-            <MobileAppHeader className="mobile-shell__menu-topbar" onBack={handleCloseMenu} onHome={handleShowHome} />
+            <MobileAppHeader
+              className="mobile-shell__menu-topbar"
+              useLocalBack
+              onBack={handleCloseMenu}
+              onHome={handleShowHome}
+            />
 
             <div className="mobile-shell__menu-intro">
               <span>Навигация</span>
@@ -283,7 +300,7 @@ export default function MobilePortfolioShell({
     <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
       <div className="mobile-shell__device">
         <div className="mobile-shell__detail-stage">
-          <MobileAppHeader onBack={handleGoBack} onHome={handleShowHome} />
+          <MobileAppHeader useLocalBack onBack={handleGoBack} onHome={handleShowHome} />
 
           <article className="mobile-shell__panel mobile-shell__panel--detail">
             <div className="mobile-shell__panel-glow" aria-hidden="true" />

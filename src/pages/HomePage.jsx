@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DesktopPortfolioStage from '../components/DesktopPortfolioStage';
 import MobilePortfolioShell from '../components/MobilePortfolioShell';
 import ResumePanel from '../components/ResumePanel';
@@ -16,6 +16,7 @@ const SHOW_HOME_EVENT = 'portfolio:show-home';
 const OVERLAY_CLOSE_DELAY = 320;
 
 export default function HomePage() {
+  const location = useLocation();
   const navigate = useNavigate();
   const isMobileView = useViewportMatch(MOBILE_VIEW_QUERY);
   const [openCategoryId, setOpenCategoryId] = useState(null);
@@ -23,6 +24,10 @@ export default function HomePage() {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [selectedPreviewIndex, setSelectedPreviewIndex] = useState(0);
   const closeTimeoutRef = useRef(null);
+  const requestedSectionId = new URLSearchParams(location.search).get('section');
+  const initialSectionId = portfolioSections.some((item) => item.id === requestedSectionId)
+    ? requestedSectionId
+    : null;
 
   const activeSection =
     portfolioSections.find((item) => item.id === (displayCategoryId ?? openCategoryId)) ??
@@ -76,6 +81,10 @@ export default function HomePage() {
     clearCloseTimeout();
     setIsOverlayVisible(false);
 
+    if (location.pathname === '/' && location.search) {
+      navigate('/', { replace: true });
+    }
+
     closeTimeoutRef.current = window.setTimeout(() => {
       setOpenCategoryId(null);
       setDisplayCategoryId(null);
@@ -89,7 +98,35 @@ export default function HomePage() {
     window.requestAnimationFrame(() => {
       setIsOverlayVisible(true);
     });
+
+    if (location.pathname === '/' && requestedSectionId !== categoryId) {
+      navigate(`/?section=${categoryId}`);
+    }
   }
+
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      return;
+    }
+
+    clearCloseTimeout();
+
+    if (initialSectionId) {
+      setDisplayCategoryId(initialSectionId);
+      setOpenCategoryId(initialSectionId);
+      window.requestAnimationFrame(() => {
+        setIsOverlayVisible(true);
+      });
+      return;
+    }
+
+    setIsOverlayVisible(false);
+
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setOpenCategoryId(null);
+      setDisplayCategoryId(null);
+    }, OVERLAY_CLOSE_DELAY);
+  }, [initialSectionId, location.pathname]);
 
   useEffect(() => {
     function handleShowHome() {

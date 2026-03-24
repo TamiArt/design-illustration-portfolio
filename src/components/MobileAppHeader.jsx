@@ -28,6 +28,7 @@ export default function MobileAppHeader({
   contactsTo = '/contacts',
   onBack,
   onHome,
+  useLocalBack = false,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,6 +37,11 @@ export default function MobileAppHeader({
   const isHomeRoute = location.pathname === '/' && !location.search && !location.hash;
 
   function handleBack() {
+    if (useLocalBack && onBack) {
+      onBack();
+      return;
+    }
+
     navigateToPreviousSiteEntry({
       currentPath: currentSitePath,
       navigate,
