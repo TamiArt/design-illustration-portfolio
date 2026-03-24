@@ -5019,7 +5019,7 @@ img {
   .mobile-shell__panel-topbar,
   .mobile-shell__panel-visual,
   .mobile-shell__panel-copy,
-  .mobile-shell__panel-thumbs,
+  .mobile-shell__panel-dots,
   .mobile-shell__resume-contact-icons {
     position: relative;
     z-index: 1;
@@ -5137,16 +5137,6 @@ img {
     background: rgba(255, 255, 255, 0.04);
   }
 
-  .mobile-shell__panel-thumb img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 12px;
-    background: transparent;
-  }
-
   .mobile-shell__panel--detail {
     display: flex;
     flex-direction: column;
@@ -5193,39 +5183,39 @@ img {
     font-weight: 600;
   }
 
-  .mobile-shell__panel-thumbs {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 56px;
-    justify-content: start;
+  .mobile-shell__panel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: auto;
-    overflow-x: auto;
-    padding: 6px 2px 0 0;
-    scrollbar-width: none;
+    padding-top: 8px;
   }
 
-  .mobile-shell__panel-thumbs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .mobile-shell__panel-thumb {
-    overflow: hidden;
-    width: 56px;
-    padding: 4px;
+  .mobile-shell__panel-dot {
+    width: 12px;
+    height: 12px;
+    padding: 0;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.14);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 10px 18px rgba(22, 30, 22, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
     cursor: pointer;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
   }
 
-  .mobile-shell__panel-thumb--active {
-    border-color: rgba(255, 255, 255, 0.56);
-    background: rgba(255, 255, 255, 0.22);
-    transform: translateY(-2px);
+  .mobile-shell__panel-dot--active {
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 248, 226, 0.96);
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 0.12),
+      0 8px 18px rgba(22, 30, 22, 0.12);
+    transform: scale(1.18);
   }
 
   .mobile-shell__top,
@@ -5296,15 +5286,13 @@ img {
     border-radius: 26px;
   }
 
-  .mobile-shell__panel-thumbs {
-    grid-auto-columns: 50px;
+  .mobile-shell__panel-dots {
     gap: 8px;
   }
 
-  .mobile-shell__panel-thumb {
-    width: 50px;
-    padding: 3px;
-    border-radius: 14px;
+  .mobile-shell__panel-dot {
+    width: 11px;
+    height: 11px;
   }
 
   .mobile-shell__resume-copy h1,
@@ -6545,6 +6533,17 @@ img {
     grid-template-rows: auto minmax(0, 1fr);
   }
 
+  .mobile-shell--resume-view .mobile-shell__device {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: min(680px, calc(100svh - 16px));
+  }
+
+  .mobile-shell--resume-view .mobile-shell__detail-stage {
+    height: auto;
+    overflow: visible;
+  }
+
   .mobile-shell__resume-fullscreen {
     min-height: 0;
     display: grid;
@@ -6553,6 +6552,12 @@ img {
     overflow-x: hidden;
     padding: 0 2px 4px 0;
     scrollbar-width: none;
+  }
+
+  .mobile-shell--resume-view .mobile-shell__resume-fullscreen {
+    display: block;
+    overflow: visible;
+    padding: 0 2px 10px 0;
   }
 
   .mobile-shell__resume-fullscreen::-webkit-scrollbar {
@@ -7803,9 +7808,10 @@ img {
     position: relative;
     overflow: hidden;
     display: grid;
-    align-content: space-between;
-    gap: 12px;
-    min-height: 148px;
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    gap: 10px;
+    min-height: 164px;
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.48);
     border-radius: 28px;
@@ -7853,17 +7859,29 @@ img {
     z-index: 1;
   }
 
+  .mobile-shell__menu-tile-copy {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    min-width: 0;
+  }
+
   .mobile-shell__menu-tile strong {
     display: block;
     font-size: 0.9rem;
     line-height: 1.1;
     font-weight: 800;
+    text-wrap: balance;
   }
 
   .mobile-shell__menu-tile small {
+    display: block;
     color: rgba(31, 26, 22, 0.68);
     font-size: 0.72rem;
     line-height: 1.28;
+    overflow-wrap: anywhere;
   }
 
   .mobile-shell__menu-tile--rose {
@@ -8018,6 +8036,11 @@ img {
   .mobile-shell--detail-screen .mobile-shell__device {
     min-height: min(640px, calc(100svh - 16px));
     height: min(736px, calc(100svh - 16px));
+  }
+
+  .mobile-shell--resume-view .mobile-shell__device {
+    min-height: min(640px, calc(100svh - 16px));
+    height: auto;
   }
 
   .mobile-shell__home-screen,
@@ -8467,7 +8490,7 @@ img {
   }
 
   .mobile-shell__menu-tile {
-    min-height: 132px;
+    min-height: 152px;
     padding: 14px;
     border-radius: 24px;
   }
@@ -8489,6 +8512,7 @@ img {
 
   .mobile-shell__menu-tile small {
     font-size: 0.68rem;
+    line-height: 1.34;
   }
 
   .mobile-shell__detail-nav-button {

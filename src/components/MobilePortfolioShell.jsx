@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   artistMainPhotoImage,
   artistPanelPortraitImage,
-  resumeCreativeFields,
 } from '../data/portfolio';
 import { CategoryIcon, ContactIcon } from './Icons';
 import MobileAppHeader from './MobileAppHeader';
@@ -52,8 +51,6 @@ export default function MobilePortfolioShell({
   const isHomeState = !displayCategoryId;
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isResumeVisible, setIsResumeVisible] = useState(false);
-  const highlightedFields = resumeCreativeFields.slice(0, 4);
-
   useEffect(() => {
     if (!isHomeState) {
       setIsMenuVisible(false);
@@ -112,14 +109,15 @@ export default function MobilePortfolioShell({
 
   if (isHomeState && isResumeVisible) {
     return (
-      <section className="mobile-shell mobile-shell--detail-screen" style={themeStyle}>
-        <div className="mobile-shell__device">
+      <section className="mobile-shell mobile-shell--detail-screen mobile-shell--resume-view" style={themeStyle}>
+        <div className="mobile-shell__device mobile-shell__device--resume">
           <div className="mobile-shell__detail-stage mobile-shell__detail-stage--resume">
             <MobileAppHeader useLocalBack onBack={handleCloseResume} onHome={handleShowHome} />
 
             <div className="mobile-shell__resume-fullscreen">
               <ResumePanel
                 className="mobile-shell__resume-panel"
+                hidePortrait
                 onPdfExport={onPdfExport}
                 portraitFetchPriority="high"
               />
@@ -277,8 +275,10 @@ export default function MobilePortfolioShell({
                   <span className="mobile-shell__menu-tile-icon">
                     <CategoryIcon type={item.id} />
                   </span>
-                  <strong>{item.title}</strong>
-                  <small>{highlightedFields[index] ?? item.subtitle}</small>
+                  <div className="mobile-shell__menu-tile-copy">
+                    <strong>{item.title}</strong>
+                    <small>{item.menuSubtitle ?? item.subtitle}</small>
+                  </div>
                 </button>
               ))}
 
@@ -286,8 +286,10 @@ export default function MobilePortfolioShell({
                 <span className="mobile-shell__menu-tile-icon">
                   <ContactIcon type="email" />
                 </span>
-                <strong>Контакты</strong>
-                <small>Способы связи</small>
+                <div className="mobile-shell__menu-tile-copy">
+                  <strong>Контакты</strong>
+                  <small>Способы связаться со мной</small>
+                </div>
               </Link>
             </div>
           </div>
@@ -332,19 +334,19 @@ export default function MobilePortfolioShell({
               <p>{selectedPreview.text}</p>
             </div>
 
-            <div className="mobile-shell__panel-thumbs">
-              {activeSection.images.slice(0, 4).map((entry, index) => (
+            <div className="mobile-shell__panel-dots" aria-label="Навигация по изображениям">
+              {activeSection.images.map((entry, index) => (
                 <button
                   key={`${activeSection.id}-mobile-panel-${entry.title}`}
                   type="button"
-                  className={`mobile-shell__panel-thumb${
-                    selectedPreviewIndex === index ? ' mobile-shell__panel-thumb--active' : ''
+                  className={`mobile-shell__panel-dot${
+                    selectedPreviewIndex === index ? ' mobile-shell__panel-dot--active' : ''
                   }`}
                   onClick={() => onPreviewSelect(index)}
+                  aria-label={`Показать изображение ${index + 1}: ${entry.title}`}
                   aria-pressed={selectedPreviewIndex === index}
-                >
-                  <img src={entry.image} alt={entry.title} loading="lazy" decoding="async" />
-                </button>
+                  title={entry.title}
+                />
               ))}
             </div>
           </article>

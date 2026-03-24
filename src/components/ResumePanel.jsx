@@ -32,6 +32,7 @@ function PdfIcon() {
 
 export default function ResumePanel({
   className = '',
+  hidePortrait = false,
   id,
   onPdfExport,
   portraitFetchPriority = 'auto',
@@ -128,38 +129,40 @@ export default function ResumePanel({
           </div>
         </div>
 
-        <div className="artist-panel__visual-column">
-          <div className="artist-panel__frame">
-            <ResumeToolIcons className="artist-panel__contact-stack" />
+        <div className={`artist-panel__visual-column${hidePortrait ? ' artist-panel__visual-column--no-portrait' : ''}`}>
+          {!hidePortrait ? (
+            <div className="artist-panel__frame">
+              <ResumeToolIcons className="artist-panel__contact-stack" />
 
-            <div className="artist-panel__floating artist-panel__floating--badge">
-              artami
-              <br />
-              studio
-            </div>
+              <div className="artist-panel__floating artist-panel__floating--badge">
+                artami
+                <br />
+                studio
+              </div>
 
-            <div className="artist-panel__portrait-wrap">
-              <img
-                className="artist-panel__portrait"
-                src={artistPanelPortraitImage}
-                alt="Авторская портретная работа"
-                loading="eager"
-                decoding="async"
-                fetchpriority={portraitFetchPriority}
-              />
-            </div>
+              <div className="artist-panel__portrait-wrap">
+                <img
+                  className="artist-panel__portrait"
+                  src={artistPanelPortraitImage}
+                  alt="Авторская портретная работа"
+                  loading="eager"
+                  decoding="async"
+                  fetchpriority={portraitFetchPriority}
+                />
+              </div>
 
-            <div className="artist-panel__floating artist-panel__floating--controls">
-              <button type="button" aria-label="UI element" />
-              <button type="button" aria-label="UI element" />
-              <button type="button" aria-label="UI element" />
-              <button type="button" aria-label="UI element" />
-            </div>
+              <div className="artist-panel__floating artist-panel__floating--controls">
+                <button type="button" aria-label="UI element" />
+                <button type="button" aria-label="UI element" />
+                <button type="button" aria-label="UI element" />
+                <button type="button" aria-label="UI element" />
+              </div>
 
-            <div className="artist-panel__slider">
-              <span />
+              <div className="artist-panel__slider">
+                <span />
+              </div>
             </div>
-          </div>
+          ) : null}
 
           <section className="artist-panel__section artist-panel__section--software artist-panel__section--software-visual">
             <div className="artist-panel__section-head">
