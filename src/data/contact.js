@@ -14,8 +14,8 @@ export const contactLinks = [
   {
     id: 'instagram',
     label: 'Instagram',
-    value: '@artami.studio',
-    href: 'https://www.instagram.com/artami.studio/',
+    value: '@arttami1',
+    href: 'https://www.instagram.com/arttami1?igsh=ZWVnajl4bHoxbGsw&utm_source=qr',
   },
   {
     id: 'x',
