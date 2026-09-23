@@ -8614,3 +8614,49 @@ img {
     max-height: 100% !important;
   }
 }
+
+
+/* PDF pagination: page 1 contains the profile; page 2 contains areas, formats and workflow. */
+@media print {
+  body.pdf-export-mode .artist-panel__layout {
+    display: block !important;
+  }
+
+  body.pdf-export-mode .artist-panel__content,
+  body.pdf-export-mode .artist-panel__visual-column {
+    display: block !important;
+  }
+
+  body.pdf-export-mode .artist-panel__visual-column .artist-panel__frame,
+  body.pdf-export-mode .artist-panel__visual-column .artist-panel__section--software-visual {
+    display: none !important;
+  }
+
+  body.pdf-export-mode .artist-panel__compact-columns {
+    display: block !important;
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  body.pdf-export-mode .artist-panel__section--fields,
+  body.pdf-export-mode .artist-panel__section--formats,
+  body.pdf-export-mode .artist-panel__section--process-visual {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.pdf-export-mode .artist-panel__section--process-visual {
+    margin-top: 16px !important;
+  }
+
+  body.pdf-export-mode .artist-panel__compact-stack {
+    display: block !important;
+  }
+
+  body.pdf-export-mode .artist-panel__process-card {
+    position: relative !important;
+    z-index: 20 !important;
+    background: #ffffff !important;
+    isolation: isolate !important;
+  }
+}
