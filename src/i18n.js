@@ -83,14 +83,14 @@ const ruEn = {
   'направление':'direction','Иллюстрации для детей и семейных проектов':'Illustrations for children and family projects',
   'Обсудить детский проект':'Discuss a children’s project','Сказочный герой':'Fairytale character','пространство':'space',
   'Иллюстрация для детской комнаты':'Illustration for a children’s room',
-  'Социальные сети и принты':'Social media and prints','Визуалы для соцсетей, принты и фирменная подача материалов.':'Visuals for social media, prints and cohesive presentation.',
+  'Социальные сети и принты':'Social media and prints',
+  'Визуалы для соцсетей, принты и фирменная подача материалов.':'Visuals for social media, prints and cohesive presentation.',
   'Визуалы для бренда, соцсетей и печати':'Visuals for brands, social media and print','результат':'result',
   'Визуальная система для digital и print':'Visual system for digital and print',
   'Заказать визуалы и принты':'Commission visuals and prints','постер':'poster','Постерная подача':'Poster presentation',
   'планер':'planner','Печатный планер':'Printed planner','Коллекция шаблонов':'Template collection',
   'печать':'print','Материалы для ежедневного использования':'Materials for everyday use',
-  'Этап':'Stage'
-
+  'Этап':'Stage',
   'Работаю с частными и коммерческими задачами: от картин на заказ и авторских серий до AI-визуалов, скетчей и материалов для digital и print.':'I work with private and commercial tasks, from commissioned paintings and original series to AI visuals, sketches and digital/print materials.',
   'Создаю авторские визуальные решения на стыке живописи, иллюстрации и интерьерного скетчинга. В работе соединяю художественный подход, композиционную точность и продуманную подачу результата.':'I create original visual solutions at the intersection of painting, illustration and interior sketching, combining an artistic approach, precise composition and polished presentation.',
   'Живопись на холсте':'Oil painting',
@@ -143,7 +143,7 @@ function translateNode(node, language) {
     const original = originalTextNodes.get(node);
     let value = original;
     if (language === 'en') {
-      value = ruEn[original] ?? original.replace(/(\\d+) этап/g, '$1 Stage');
+      value = ruEn[original] ?? original.replace(/(\d+) этап/g, '$1 Stage');
     }
     if (node.nodeValue !== value) node.nodeValue = value;
   }
