@@ -8660,3 +8660,21 @@ img {
     isolation: isolate !important;
   }
 }
+
+@media print {
+  body.pdf-export-mode .artist-panel__section--process-visual::before,
+  body.pdf-export-mode .artist-panel__section--process-visual::after {
+    display: none !important;
+  }
+
+  body.pdf-export-mode .artist-panel__process-grid {
+    position: relative !important;
+    z-index: 30 !important;
+  }
+
+  body.pdf-export-mode .artist-panel__process-card {
+    position: relative !important;
+    z-index: 31 !important;
+    overflow: visible !important;
+  }
+}
