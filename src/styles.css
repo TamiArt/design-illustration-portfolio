@@ -8534,3 +8534,83 @@ img {
     font-size: 0.78rem;
   }
 }
+
+
+/* Header language switcher */
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid rgba(33, 44, 33, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.72);
+  box-shadow: 0 8px 18px rgba(49, 63, 49, 0.08);
+}
+
+.language-switcher__button {
+  appearance: none;
+  border: 0;
+  min-width: 34px;
+  min-height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.language-switcher__button:hover {
+  color: var(--text);
+}
+
+.language-switcher__button--active {
+  color: #fff;
+  background: var(--moss-deep);
+}
+
+.language-switcher__divider {
+  color: rgba(33, 44, 33, 0.24);
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+@media print {
+  body.pdf-export-mode .artist-panel__content {
+    position: relative !important;
+    z-index: 5 !important;
+    min-width: 0 !important;
+  }
+
+  body.pdf-export-mode .artist-panel__visual-column {
+    position: relative !important;
+    z-index: 1 !important;
+    min-width: 0 !important;
+  }
+
+  body.pdf-export-mode .artist-panel__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 280px) !important;
+    gap: 16px !important;
+  }
+
+  body.pdf-export-mode .artist-panel__intro h1 {
+    white-space: normal !important;
+    text-wrap: wrap !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body.pdf-export-mode .artist-panel__frame {
+    position: relative !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.pdf-export-mode .artist-panel__portrait-wrap {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
