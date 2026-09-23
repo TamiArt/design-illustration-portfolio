@@ -1,6 +1,7 @@
 ﻿import { NavLink, Route, Routes } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { LanguageProvider, useLanguage } from './i18n';
 import ContactsPage from './pages/ContactsPage';
 import HomePage from './pages/HomePage';
 import { getSitePath, recordSiteHistoryEntry } from './hooks/siteHistory';
@@ -9,7 +10,8 @@ import ResumePrintPage from './pages/ResumePrintPage';
 
 const SHOW_HOME_EVENT = 'portfolio:show-home';
 
-function SiteHeader({ language, onLanguageChange }) {
+function SiteHeader() {
+  const { language, setLanguage } = useLanguage();
   function handleHomeClick() {
     window.dispatchEvent(new Event(SHOW_HOME_EVENT));
   }
@@ -29,8 +31,8 @@ function SiteHeader({ language, onLanguageChange }) {
           </svg>
         </span>
         <div>
-          <strong>Татьяна Ципелева | arTami</strong>
-          <span>Художник • Дизайнер визуальных решений</span>
+          <strong>{language === 'en' ? 'Tatiana Tsipeleva | arTami' : 'Татьяна Ципелева | arTami'}</strong>
+          <span>{language === 'en' ? 'Artist • Visual Designer' : 'Художник • Дизайнер визуальных решений'}</span>
         </div>
       </NavLink>
 
@@ -39,7 +41,7 @@ function SiteHeader({ language, onLanguageChange }) {
           <button
             type="button"
             className={language === 'ru' ? 'language-switcher__button language-switcher__button--active' : 'language-switcher__button'}
-            onClick={() => onLanguageChange('ru')}
+            onClick={() => setLanguage('ru')}
             aria-pressed={language === 'ru'}
           >
             RU
@@ -48,7 +50,7 @@ function SiteHeader({ language, onLanguageChange }) {
           <button
             type="button"
             className={language === 'en' ? 'language-switcher__button language-switcher__button--active' : 'language-switcher__button'}
-            onClick={() => onLanguageChange('en')}
+            onClick={() => setLanguage('en')}
             aria-pressed={language === 'en'}
           >
             EN
@@ -60,7 +62,7 @@ function SiteHeader({ language, onLanguageChange }) {
           }
           to="/contacts"
         >
-          {language === 'ru' ? 'Контакты' : 'Contact'}
+          {language === 'en' ? 'Contact' : 'Контакты'}
         </NavLink>
       </nav>
     </header>
@@ -79,15 +81,6 @@ function FloatingAura() {
 
 export default function App() {
   const location = useLocation();
-  const [language, setLanguage] = useState(() => {
-    if (typeof window === 'undefined') return 'ru';
-    return window.localStorage.getItem('portfolio-language') || 'ru';
-  });
-
-  function handleLanguageChange(nextLanguage) {
-    setLanguage(nextLanguage);
-    window.localStorage.setItem('portfolio-language', nextLanguage);
-  }
   const isResumePrintPage = location.pathname === '/resume-print';
 
   useEffect(() => {
@@ -95,13 +88,11 @@ export default function App() {
   }, [location]);
 
   return (
-    <div className={`app-shell${isResumePrintPage ? ' app-shell--resume-print' : ''}`}>
+    <LanguageProvider>
+      <div className={`app-shell${isResumePrintPage ? ' app-shell--resume-print' : ''}`}>
       {isResumePrintPage ? null : <FloatingAura />}
       {isResumePrintPage ? null : (
-        <SiteHeader
-          language={language}
-          onLanguageChange={handleLanguageChange}
-        />
+        <SiteHeader />
       )}
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -109,6 +100,7 @@ export default function App() {
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/resume-print" element={<ResumePrintPage />} />
       </Routes>
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }
