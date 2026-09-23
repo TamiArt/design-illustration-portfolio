@@ -134,11 +134,13 @@ const ruEn = {
   'Работаю с форматом, цветом и графикой так, чтобы изделие было удобным и одновременно визуально привлекательным.':'I work with format, color and graphics so the final product is practical and visually appealing.'
 };
 
+const originalTextNodes = new WeakMap();
+
 function translateNode(node, language) {
   if (node.nodeType === Node.TEXT_NODE) {
     if (!node.parentElement || ['SCRIPT','STYLE'].includes(node.parentElement.tagName)) return;
-    if (!node.dataset.i18nOriginal) node.dataset.i18nOriginal = node.nodeValue;
-    const original = node.dataset.i18nOriginal;
+    if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.nodeValue);
+    const original = originalTextNodes.get(node);
     let value = original;
     if (language === 'en') {
       value = ruEn[original] ?? original.replace(/(\\d+) этап/g, '$1 Stage');
