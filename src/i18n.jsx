@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 const LANGUAGE_KEY = 'portfolio-language';
 
 const ruEn = {
+  'Татьяна Ципелева': 'Tatiana Tsipeleva',
   'Татьяна Ципелева | arTami':'Tatiana Tsipeleva | arTami',
   'Художник • Дизайнер визуальных решений':'Artist • Visual Designer',
   'Художник • дизайнер визуальных решений':'Artist • visual designer',
